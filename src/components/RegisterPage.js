@@ -15,16 +15,14 @@ const styles  = theme => ({
   webcam:{
     width:"95%",
     height:"95%",
-    margin: theme.spacing(1, 1, 1),
+    margin: theme.spacing(1, 1, 1)
   },
   paper: {
-    marginTop: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
   },
   avatar: {
-    margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
