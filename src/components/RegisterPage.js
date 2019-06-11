@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Component} from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -6,18 +6,22 @@ import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Paper from "@material-ui/core/Paper";
+import Webcam from "react-webcam";
+import { withStyles } from "@material-ui/core/styles";
 
-
-const useStyles = makeStyles(theme => ({
-
+const styles  = theme => ({
+  webcam:{
+    width:"95%",
+    height:"95%",
+    margin: theme.spacing(1, 1, 1),
+  },
   paper: {
     marginTop: theme.spacing(8),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   },
   avatar: {
     margin: theme.spacing(1),
@@ -30,11 +34,27 @@ const useStyles = makeStyles(theme => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
-}));
+});
 
+class RegisterPage extends Component  {
 
-export default function RegisterPage() {
-  const classes = useStyles();
+  setRef = webcam => {
+    this.webcam = webcam;
+  };
+ 
+  capture = () => {
+    const imageSrc = this.webcam.getScreenshot();
+    console.log(imageSrc);
+  };
+ 
+
+render(){
+  
+  const videoConstraints = {
+    facingMode: "user"
+  };
+
+  const { classes } = this.props;
 
   return (
     <Container component="main" maxWidth="xs">
@@ -49,9 +69,15 @@ export default function RegisterPage() {
         <form className={classes.form} noValidate>
           <Grid container spacing={2}>
            <Grid item xs={12}>
-              <Paper>
-                
-              </Paper>
+           <Paper>
+              <Webcam
+                audio={false}
+                imageSmoothing={true}
+                ref={this.setRef}
+                className={classes.webcam}
+                screenshotFormat="image/jpeg"
+                videoConstraints={videoConstraints} />
+            </Paper>
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -89,16 +115,17 @@ export default function RegisterPage() {
             </Grid>
           </Grid>
           <Button
-            type="submit"
             fullWidth
             variant="contained"
             color="primary"
-            className={classes.submit}
-          >
+            onClick={this.capture}
+            className={classes.submit}>
             Sign Up
           </Button>
         </form>
       </div>
     </Container>
   );
-};
+}
+}
+export default withStyles(styles, { withTheme: true })(RegisterPage);
