@@ -82,7 +82,6 @@ class LoginPage extends Component {
             label="Email Address"
             name="email"
             autoComplete="email"
-            autoFocus
           />
           <Button
             fullWidth
