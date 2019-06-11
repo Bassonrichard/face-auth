@@ -1,10 +1,12 @@
 import React from "react";
-import Ty
+import Typography from "@material-ui/core/Typography";
 
 export default function LoginPage() {
-    return (
-      <div className="LoginPage">
-          Login Page
-      </div>
-    );
-  };
+  return (
+    <div className="LoginPage">
+      <Typography variant="h1" align="center" color="primary" gutterBottom={true}>
+        Login Page
+      </Typography>
+    </div>
+  );
+};
