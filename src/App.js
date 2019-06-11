@@ -1,7 +1,7 @@
-import React from 'react';
-import { ThemeProvider }  from '@material-ui/styles';
-import Theme from 'theme/AuthTheme';
-import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+import React from "react";
+import { ThemeProvider }  from "@material-ui/styles";
+import Theme from "theme/AuthTheme";
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import MenuBar from "components/ManuBar";
 import LandingPage from "components/LandingPage";
 import LoginPage from "components/LoginPage";
