@@ -1,24 +1,31 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { ThemeProvider }  from '@material-ui/styles';
+import Theme from 'theme/AuthTheme';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+import MenuBar from "components/ManuBar";
+import LandingPage from "components/LandingPage";
+import LoginPage from "components/LoginPage";
+import RegisterPage from "components/RegisterPage";
+
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <ThemeProvider  theme={Theme}>
+      <Router>
+        <header className="App-header">
+          <MenuBar />
+        </header>
+
+          <Switch>
+            <Route path="/login" component={LoginPage} />
+            <Route path="/register" component={RegisterPage} />
+            <Route path="/" component={LandingPage} />
+            <Redirect from="*" to="/" />
+          </Switch>
+        </Router>
+      </ThemeProvider >
+
     </div>
   );
 }
