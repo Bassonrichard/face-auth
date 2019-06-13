@@ -9,6 +9,7 @@ import Container from '@material-ui/core/Container';
 import { withStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Webcam from "react-webcam";
+import { FaceAuthApiUrl } from 'api/ApiUrls'
 
 const styles  = theme => ({
   webcam:{
@@ -36,10 +37,15 @@ const styles  = theme => ({
 
 class LoginPage extends Component {
 
-  state = {
-    email: "",
-    DataUri: ""
- }
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      email: "",
+      dataUri: ""
+   };
+  }
+  
 
 
   setRef = webcam => {
@@ -47,16 +53,12 @@ class LoginPage extends Component {
   };
  
   capture = () => {
-    const imageSrc = this.webcam.getScreenshot();
+
     this.setState({
-      DataUri:imageSrc
-    })
-    console.log(this.props.DataUri);
+      dataUri: this.webcam.getScreenshot()
+  });
 
-    if(this.props.DataUri != null){
-
-    }
-
+  
   };
  
   handleChange = input => e => {
@@ -103,7 +105,7 @@ class LoginPage extends Component {
             id="email"
             label="Email Address"
             name="email"
-            onChange={this.handleChange('email')}
+            onChange={this.handleChange("email")}
             defaultValue={values.email}
             autoComplete="email"
           />
