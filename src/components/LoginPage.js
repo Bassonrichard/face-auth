@@ -70,7 +70,7 @@ class LoginPage extends Component {
                 imageSmoothing={true}
                 ref={this.setRef}
                 className={classes.webcam}
-                screenshotFormat="image/jpeg"
+                screenshotFormat="image/png"
                 videoConstraints={videoConstraints} />
           </Paper>
           <TextField
