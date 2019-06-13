@@ -103,7 +103,7 @@ class LoginPage extends Component {
             id="email"
             label="Email Address"
             name="email"
-            onChange={handleChange('email')}
+            onChange={this.handleChange('email')}
             defaultValue={values.email}
             autoComplete="email"
           />

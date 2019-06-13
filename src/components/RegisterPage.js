@@ -109,7 +109,7 @@ render(){
                 fullWidth
                 id="firstName"
                 label="First Name"
-                onChange={handleChange('firstName')}
+                onChange={this.handleChange('firstName')}
                 defaultValue={values.firstName}
               />
             </Grid>
@@ -122,7 +122,7 @@ render(){
                 label="Last Name"
                 name="lastName"
                 autoComplete="lname"
-                onChange={handleChange('lastName')}
+                onChange={this.handleChange('lastName')}
                 defaultValue={values.lastName}
               />
             </Grid>
@@ -135,7 +135,7 @@ render(){
                 label="Email Address"
                 name="email"
                 autoComplete="email"
-                onChange={handleChange('email')}
+                onChange={this.handleChange('email')}
                 defaultValue={values.email}
               />
             </Grid>
