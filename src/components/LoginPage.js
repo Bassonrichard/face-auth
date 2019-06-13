@@ -50,6 +50,8 @@ class LoginPage extends Component {
 
     const { classes } = this.props;
     const videoConstraints = {
+      width: 1280,
+      height: 720,
       facingMode: "user"
     };
   
