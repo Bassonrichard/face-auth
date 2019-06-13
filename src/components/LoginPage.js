@@ -36,18 +36,38 @@ const styles  = theme => ({
 
 class LoginPage extends Component {
 
+  state = {
+    email: "",
+    DataUri: ""
+ }
+
+
   setRef = webcam => {
     this.webcam = webcam;
   };
  
   capture = () => {
     const imageSrc = this.webcam.getScreenshot();
-    console.log(imageSrc);
+    this.setState({
+      DataUri:imageSrc
+    })
+    console.log(this.props.DataUri);
+
+    if(this.props.DataUri != null){
+
+    }
+
   };
  
+  handleChange = input => e => {
+    this.setState({
+        [input]: e.target.value
+    });
+  }
 
   render(){
-
+    const {email} = this.state;
+    const values = {email}
     const { classes } = this.props;
     const videoConstraints = {
       width: 1280,
@@ -83,6 +103,8 @@ class LoginPage extends Component {
             id="email"
             label="Email Address"
             name="email"
+            onChange={handleChange('email')}
+            defaultValue={values.email}
             autoComplete="email"
           />
           <Button

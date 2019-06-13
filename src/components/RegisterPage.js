@@ -35,6 +35,13 @@ const styles  = theme => ({
 });
 
 class RegisterPage extends Component  {
+  state = {
+    firstName:"",
+    lastName:"",
+    email: "",
+    DataUri: ""
+ }
+
 
   setRef = webcam => {
     this.webcam = webcam;
@@ -42,12 +49,26 @@ class RegisterPage extends Component  {
  
   capture = () => {
     const imageSrc = this.webcam.getScreenshot();
-    console.log(imageSrc);
+    this.setState({
+      DataUri:imageSrc
+    })
+
+    if(this.props.DataUri != null){
+      console.log(this.props.DataUri)
+    }
+
   };
  
+  handleChange = input => e => {
+    this.setState({
+        [input]: e.target.value
+    });
+  }
 
 render(){
-  
+  const {email,firstName,lastName} = this.state;
+  const values = {email,firstName,lastName}
+
   const videoConstraints = {
     width: 1280,
     height: 720,
@@ -88,6 +109,8 @@ render(){
                 fullWidth
                 id="firstName"
                 label="First Name"
+                onChange={handleChange('firstName')}
+                defaultValue={values.firstName}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -99,6 +122,8 @@ render(){
                 label="Last Name"
                 name="lastName"
                 autoComplete="lname"
+                onChange={handleChange('lastName')}
+                defaultValue={values.lastName}
               />
             </Grid>
             <Grid item xs={12}>
@@ -110,6 +135,8 @@ render(){
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                onChange={handleChange('email')}
+                defaultValue={values.email}
               />
             </Grid>
           </Grid>
