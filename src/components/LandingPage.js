@@ -1,44 +1,60 @@
 import React, { Component } from "react";
 import Typography from "@material-ui/core/Typography";
-import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
-import Button from "@material-ui/core/Button";
 import { withStyles } from "@material-ui/core/styles";
+import Container from '@material-ui/core/Container';
+import FaceIcon from "@material-ui/icons/Face";
+import Avatar from "@material-ui/core/Avatar";
+import Webcam from "react-webcam";
 
 const styles = theme => ({
-  submit: {
-    margin: theme.spacing(3, 0, 2),
+  paper: {
+    display: 'flex',
+    alignItems: 'center',  
+    margin: theme.spacing(3, 1, 1)
   },
+  heading:{
+    margin: theme.spacing(1, 1, 1)
+  },
+  avatar: {
+    width: 150,
+    height: 150,
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  }
 });
 
 class LandingPage extends Component {
 
   render() {
     const { classes } = this.props;
+    const videoConstraints = {
+      width: 1280,
+      height: 720,
+      facingMode: "user"
+    };
     return (
       <div className="LandingPage">
-        <Typography variant="h1" align="center" color="primary" gutterBottom={true}>
-          Landing Page
-      </Typography>
 
-        <Paper>
-          <Grid container justify="center" alignItems="center" spacing={2}>
 
-            <Grid item md={2}>
-              <Button variant="outlined" color="primary" className={classes.submit}>
-                Login
-          </Button>
-            </Grid>
-
-            <Grid item md={2}>
-              <Button variant="outlined" color="primary" className={classes.submit}>
-                Register
-          </Button>
-            </Grid>
-
-          </Grid>
-
+      <Container component="main" maxWidth="sm">
+        <Paper className={classes.paper}>
+          <Avatar className={classes.avatar}>
+          <Webcam
+          audio={false}
+          height={350}
+          ref={this.setRef}
+          screenshotFormat="image/jpeg"
+          width={350}
+          videoConstraints={videoConstraints}
+        />
+          </Avatar>
+          
+          <Typography variant="h1" color="primary" align="center" gutterBottom={true} className={classes.heading}>
+                 Face Auth
+          </Typography>
         </Paper>
+      </Container>
 
 
       </div>
