@@ -9,7 +9,7 @@ import Container from '@material-ui/core/Container';
 import { withStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Webcam from "react-webcam";
-import { FaceAuthApiUrl } from 'api/ApiUrls'
+import { FaceAuthLogin } from 'api/ApiUrls'
 
 const styles  = theme => ({
   webcam:{
@@ -53,11 +53,28 @@ class LoginPage extends Component {
   };
  
   capture = () => {
+  let dataUri = this.webcam.getScreenshot()
 
-    this.setState({
-      dataUri: this.webcam.getScreenshot()
+  fetch(FaceAuthLogin, {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      DataUri: dataUri,
+      Email: this.state.email
+    })
+  })
+  .then(response => response.json())
+  .then(data => {
+    sessionStorage.setItem("fullName",data.userData)
+    this.props.history.push("/welcome")
+    console.log(data)
+  })
+  .catch(error => {
+    console.log(error)
   });
-
   
   };
  

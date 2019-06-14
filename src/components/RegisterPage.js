@@ -71,7 +71,7 @@ class RegisterPage extends Component {
         FullName: this.state.firstName + " " + this.state.lastName
       })
     }).then(response => {
-      console.log(response)
+      this.props.history.push("/login")
     })
       .catch(error => {
         console.log(error)

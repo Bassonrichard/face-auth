@@ -6,6 +6,7 @@ import MenuBar from "components/ManuBar";
 import LandingPage from "components/LandingPage";
 import LoginPage from "components/LoginPage";
 import RegisterPage from "components/RegisterPage";
+import Welcome from "components/Welcome";
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
           <Switch>
             <Route path="/login" component={LoginPage} />
             <Route path="/register" component={RegisterPage} />
+            <Route path="/welcome" component={Welcome} />
             <Route path="/" component={LandingPage} />
             <Redirect from="*" to="/" />
           </Switch>
