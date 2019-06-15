@@ -10,6 +10,7 @@ import { withStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Webcam from "react-webcam";
 import { FaceAuthLogin } from 'api/ApiUrls'
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const styles  = theme => ({
   webcam:{
@@ -32,7 +33,17 @@ const styles  = theme => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
-  }
+  },
+  avatarProgress: {
+    position: 'absolute',
+    zIndex: 1,
+    top: -6,
+    left: -6
+  },
+  wrapper: {
+    margin: theme.spacing(1),
+    position: 'relative',
+  },
 });
 
 class LoginPage extends Component {
@@ -53,7 +64,12 @@ class LoginPage extends Component {
   };
  
   capture = () => {
+
   let dataUri = this.webcam.getScreenshot()
+
+  this.setState({
+    loading: true
+    })
 
   fetch(FaceAuthLogin, {
     method: 'POST',
@@ -68,9 +84,13 @@ class LoginPage extends Component {
   })
   .then(response => response.json())
   .then(data => {
+    this.setState({
+    loading: false
+    })
+
     sessionStorage.setItem("fullName",data.userData)
     this.props.history.push("/welcome")
-    console.log(data)
+
   })
   .catch(error => {
     console.log(error)
@@ -87,7 +107,10 @@ class LoginPage extends Component {
   render(){
     const {email} = this.state;
     const values = {email}
+
     const { classes } = this.props;
+
+
     const videoConstraints = {
       width: 1280,
       height: 720,
@@ -98,9 +121,12 @@ class LoginPage extends Component {
       <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
+        <div className={classes.wrapper}>
+          <Avatar className={classes.avatar}>
+            <LockOutlinedIcon />
+          </Avatar>         
+          { this.state.loading && <CircularProgress size={68} className={classes.avatarProgress}/> }
+        </div>
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>

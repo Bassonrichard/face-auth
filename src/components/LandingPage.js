@@ -3,7 +3,6 @@ import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import { withStyles } from "@material-ui/core/styles";
 import Container from '@material-ui/core/Container';
-import FaceIcon from "@material-ui/icons/Face";
 import Avatar from "@material-ui/core/Avatar";
 import Webcam from "react-webcam";
 
@@ -21,7 +20,11 @@ const styles = theme => ({
     height: 150,
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
-  }
+  },
+  wrapper: {
+    margin: theme.spacing(1),
+    position: 'relative',
+  },
 });
 
 class LandingPage extends Component {
