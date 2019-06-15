@@ -16,7 +16,7 @@ const theme = createMuiTheme({
     },
   },
   status: {
-    danger: "red",
+    danger: "#F44336",
   },
 });
 

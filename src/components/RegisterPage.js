@@ -12,6 +12,8 @@ import Webcam from "react-webcam";
 import { withStyles } from "@material-ui/core/styles";
 import { FaceAuthRegister } from 'api/ApiUrls'
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Snackbar from '@material-ui/core/Snackbar';
+import SnackbarContentWrapper from "components/SnackbarContentWrapper";
 
 const styles = theme => ({
   webcam: {
@@ -45,6 +47,20 @@ const styles = theme => ({
     margin: theme.spacing(1),
     position: 'relative',
   },
+  icon: {
+    fontSize: 20,
+  },
+  iconVariant: {
+    opacity: 0.9,
+    marginRight: theme.spacing(1),
+  },
+  message: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  error:{
+    backgroundColor: "#F44336",
+  }
 });
 
 class RegisterPage extends Component {
@@ -57,22 +73,35 @@ class RegisterPage extends Component {
       lastName: "",
       email: "",
       dataUri: "",     
-      loading: false
+      loading: false,
+      isError: false,
+      errorMessage: ""
     };
   }
+
+ handleError = (response) => {
+    if (!response.ok) {
+
+        this.setState({
+          isError: true,     
+          loading: false
+        })
+    }
+};
 
 
   setRef = webcam => {
     this.webcam = webcam;
   };
+  
 
   capture = () => {
     
-  let dataUri = this.webcam.getScreenshot()
+  let dataUri = this.webcam.getScreenshot();
 
     this.setState({
       loading: true
-     })
+     });
 
     fetch(FaceAuthRegister, {
       method: 'POST',
@@ -85,19 +114,40 @@ class RegisterPage extends Component {
         Email: this.state.email,
         FullName: this.state.firstName + " " + this.state.lastName
       })
-    }).then(response => {
-
+    })
+    .then(response => {
+      this.handleError(response);
+      return response.json()
+    })
+    .then(data => {
+    
       this.setState({
-        loading: true
+        loading: false
        })
+      
+      if(this.state.isError){
+        this.setState({
+          errorMessage: data
+         })
+      }
 
-      this.props.history.push("/login")
-
-    }).catch(error => {
-        console.log(error)
+      if(!this.state.isError){
+        this.props.history.push("/login")
+      }
+  
+    })
+    .catch(error => {
+        this.handleError(error)
+        console.error(error)
       });
 
   };
+
+  handleClose = () => {
+    this.setState({
+      isError: false
+    });
+  }
 
   handleChange = input => e => {
     this.setState({
@@ -191,6 +241,25 @@ class RegisterPage extends Component {
               className={classes.submit}>
               Sign Up
           </Button>
+
+          { 
+            this.state.isError && 
+            <Snackbar
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+            onClose={this.handleClose}
+            open={this.state.isError}
+            autoHideDuration={6000}>
+            <SnackbarContentWrapper
+              variant="error"
+              className={classes.margin}
+              message={this.state.errorMessage}
+            />
+          </Snackbar>           
+          }
+
           </form>
         </div>
       </Container>
