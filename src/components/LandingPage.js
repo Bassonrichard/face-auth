@@ -20,11 +20,7 @@ const styles = theme => ({
     height: 150,
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
-  },
-  wrapper: {
-    margin: theme.spacing(1),
-    position: 'relative',
-  },
+  }
 });
 
 class LandingPage extends Component {
