@@ -11,6 +11,7 @@ import Paper from "@material-ui/core/Paper";
 import Webcam from "react-webcam";
 import { withStyles } from "@material-ui/core/styles";
 import { FaceAuthRegister } from 'api/ApiUrls'
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const styles = theme => ({
   webcam: {
@@ -24,14 +25,25 @@ const styles = theme => ({
     alignItems: 'center',
   },
   avatar: {
+    margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(3),
+    width: "100%",
+    marginTop: theme.spacing(1),
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+  },
+  avatarProgress: {
+    position: 'absolute',
+    zIndex: 1,
+    top: -6,
+    left: -6
+  },
+  wrapper: {
+    margin: theme.spacing(1),
+    position: 'relative',
   },
 });
 
@@ -44,7 +56,8 @@ class RegisterPage extends Component {
       firstName: "",
       lastName: "",
       email: "",
-      dataUri: ""
+      dataUri: "",     
+      loading: false
     };
   }
 
@@ -54,10 +67,12 @@ class RegisterPage extends Component {
   };
 
   capture = () => {
+    
+  let dataUri = this.webcam.getScreenshot()
 
     this.setState({
-      dataUri: this.webcam.getScreenshot()
-    })
+      loading: true
+     })
 
     fetch(FaceAuthRegister, {
       method: 'POST',
@@ -66,14 +81,19 @@ class RegisterPage extends Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        DataUri: this.state.dataUri,
+        DataUri: dataUri,
         Email: this.state.email,
         FullName: this.state.firstName + " " + this.state.lastName
       })
     }).then(response => {
+
+      this.setState({
+        loading: true
+       })
+
       this.props.history.push("/login")
-    })
-      .catch(error => {
+
+    }).catch(error => {
         console.log(error)
       });
 
@@ -101,9 +121,12 @@ class RegisterPage extends Component {
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
+        <div className={classes.wrapper}>
           <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
-          </Avatar>
+          </Avatar>         
+          { this.state.loading && <CircularProgress size={68} className={classes.avatarProgress}/> }
+        </div>
           <Typography component="h1" variant="h5">
             Register
         </Typography>

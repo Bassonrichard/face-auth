@@ -53,7 +53,8 @@ class LoginPage extends Component {
 
     this.state = {
       email: "",
-      dataUri: ""
+      dataUri: "",
+      loading: false
    };
   }
   
