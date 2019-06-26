@@ -27,12 +27,14 @@ const styles = theme => ({
     alignItems: 'center',
   },
   avatar: {
+    width: 50,
+    height: 50,
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
     width: "100%",
-    marginTop: theme.spacing(1),
+    marginTop: theme.spacing(3),
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
@@ -48,11 +50,11 @@ const styles = theme => ({
     position: 'relative',
   },
   icon: {
-    fontSize: 20,
+    fontSize: 100,
   },
   iconVariant: {
     opacity: 0.9,
-    marginRight: theme.spacing(1),
+    marginRight: theme.spacing(2),
   },
   message: {
     display: 'flex',
@@ -195,9 +197,9 @@ class RegisterPage extends Component {
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
+                  className={classes.textField}
                   autoComplete="fname"
                   name="firstName"
-                  variant="outlined"
                   required
                   fullWidth
                   id="firstName"
@@ -208,7 +210,7 @@ class RegisterPage extends Component {
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  variant="outlined"
+                  className={classes.textField}
                   required
                   fullWidth
                   id="lastName"
@@ -221,7 +223,7 @@ class RegisterPage extends Component {
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  variant="outlined"
+                  className={classes.textField}
                   required
                   fullWidth
                   id="email"

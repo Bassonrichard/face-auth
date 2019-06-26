@@ -1,10 +1,6 @@
 import React, { Component } from "react";
 import Typography from "@material-ui/core/Typography";
-import { withStyles } from "@material-ui/core/styles";
 
-const styles = theme => ({
-
-});
 
 class Welcome extends Component {
 
@@ -29,4 +25,4 @@ class Welcome extends Component {
     );
   }
 }
-export default withStyles(styles, { withTheme: true })(Welcome);
+export default Welcome;

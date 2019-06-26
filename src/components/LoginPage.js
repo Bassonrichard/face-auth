@@ -11,6 +11,8 @@ import Paper from "@material-ui/core/Paper";
 import Webcam from "react-webcam";
 import { FaceAuthLogin } from 'api/ApiUrls'
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Snackbar from '@material-ui/core/Snackbar';
+import SnackbarContentWrapper from "components/SnackbarContentWrapper";
 
 const styles  = theme => ({
   webcam:{
@@ -29,7 +31,7 @@ const styles  = theme => ({
   },
   form: {
     width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
+    marginTop: theme.spacing(3),
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
@@ -54,11 +56,21 @@ class LoginPage extends Component {
     this.state = {
       email: "",
       dataUri: "",
-      loading: false
+      loading: false,    
+      isError: false,
+      errorMessage: ""
    };
   }
   
+  handleError = (response) => {
+    if (!response.ok) {
 
+        this.setState({
+          isError: true,     
+          loading: false
+        })
+    }
+};
 
   setRef = webcam => {
     this.webcam = webcam;
@@ -83,18 +95,31 @@ class LoginPage extends Component {
       Email: this.state.email
     })
   })
-  .then(response => response.json())
+  .then(response => {
+    this.handleError(response);
+    return response.json()
+  })
   .then(data => {
+
     this.setState({
     loading: false
     })
 
+    if(this.state.isError){
+      this.setState({
+        errorMessage: data
+       })
+    }
+
+    if(!this.state.isError){
     sessionStorage.setItem("fullName",data.userData)
     this.props.history.push("/welcome")
+    }    
 
   })
   .catch(error => {
-    console.log(error)
+    this.handleError(error)
+    console.error(error)
   });
   
   };
@@ -102,6 +127,12 @@ class LoginPage extends Component {
   handleChange = input => e => {
     this.setState({
         [input]: e.target.value
+    });
+  }
+
+  handleClose = () => {
+    this.setState({
+      isError: false
     });
   }
 
@@ -142,7 +173,6 @@ class LoginPage extends Component {
                 videoConstraints={videoConstraints} />
           </Paper>
           <TextField
-            variant="outlined"
             margin="normal"
             required
             fullWidth
@@ -162,6 +192,23 @@ class LoginPage extends Component {
           >
             Sign In
           </Button>
+          { 
+            this.state.isError && 
+            <Snackbar
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+            onClose={this.handleClose}
+            open={this.state.isError}
+            autoHideDuration={6000}>
+            <SnackbarContentWrapper
+              variant="error"
+              className={classes.margin}
+              message={this.state.errorMessage}
+            />
+          </Snackbar>           
+          }
         </form>
       </div>
     </Container>
